@@ -68,12 +68,29 @@
             roadGroup.add(line);
         });
 
-        // --- OYUNCU ---
-        const playerGeo = new THREE.BoxGeometry(1.2, 1.2, 1.2);
-        const playerMat = new THREE.MeshPhongMaterial({ color: 0x00ff88, emissive: 0x00ff88, emissiveIntensity: 0.5 });
-        const player = new THREE.Mesh(playerGeo, playerMat);
-        player.position.y = 0.6;
-        scene.add(player);
+        <script>
+    // --- YENİ KARAKTER SİSTEMİ ---
+    const loader = new THREE.TextureLoader();
+    const charTexture = loader.load('char.png'); // Yüklediğin dosya adı
+    charTexture.colorSpace = THREE.SRGBColorSpace; // Renklerin canlı çıkması için
+
+    // Karakterin en boy oranı (Senin resmine göre 2.5 en, 4.5 boy idealdir)
+    const charGeo = new THREE.PlaneGeometry(2.5, 4.5); 
+    const charMat = new THREE.MeshBasicMaterial({ 
+        map: charTexture, 
+        transparent: true, 
+        side: THREE.DoubleSide,
+        depthWrite: false // Saydamlık çakışmalarını önler
+    });
+
+    const player = new THREE.Mesh(charGeo, charMat);
+    
+    // ÖNEMLİ: Karakterin ayaklarının tam yere basması için position.y ayarı
+    // PlaneGeometry boyunun (4.5) tam yarısı (2.25) olmalı.
+    player.position.y = 2.25; 
+    scene.add(player);
+    // BURADA BİTİR
+</script>
 
         // --- DEĞİŞKENLER ---
         let currentLane = 0;
